@@ -1,0 +1,15 @@
+version: '3'
+services:
+  wallet:
+    build:
+      context: ../../.
+      dockerfile: infrastructure/local/Dockerfile
+    volumes:
+      - ../..:$PWD
+    working_dir: $PWD
+    ports:
+      - 8090:8090
+      - 9090:9090
+    restart: on-failure
+    command: ["sh","-c","air"]
+
