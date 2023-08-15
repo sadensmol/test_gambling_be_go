@@ -24,9 +24,23 @@ Bonus (Optional):
 
 # Implementation details
 
-All amounts are in currency cents to avoid floating point precision issues, thus Wallet is a single currency.
-There is no proper error management - server returns only 200 and 500 in case of any error.
+Project structure is based on my [clean architecture article](https://medium.com/@sadensmol/my-clean-architecture-go-application-e4611b1754cb)
 
 Directory /tests contains e2d tests with http and grpc clients (grpc just for example a single test). To start e2e tests you need to start application  with `make run` command.
 
-Project structure is based on [clean architecture article](https://medium.com/@sadensmol/my-clean-architecture-go-application-e4611b1754cb)
+Everything is initially made over Grpc as it's the main mechanism for communication between services in MSA (by the task only one was required). Http is just a wrapper over grpc.
+
+All amounts are in currency cents to avoid floating point precision issues, thus Wallet is a single currency.
+There is no proper error management - server returns only 200 and 500 in case of any error.
+
+Websocket part is done with standard library, it doesn't contain any business logic since it's not required by the task.
+`userID` and `event_type` are passed as query parameters during connection establishment process.
+example of use: `websocat "ws://localhost:8080/ws?userID=123455&event_type=outcomes" -H origin:http://localhost:8080`
+there is no related code for connection management (close, healthcheck, etc) since it's not required by the task, also no related business logic.
+
+Optional part thoughts:  
+- input validation could be done in controller layer within the related handler.
+- logging could be done with middleware or with logrus hooks.
+- dockerization could done with multistage build, it makes final image smaller and more secure.
+
+it took me 2 hrs.
