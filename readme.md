@@ -44,3 +44,7 @@ Optional part thoughts:
 - dockerization could done with multistage build, it makes final image smaller and more secure.
 
 it took me 2.5 hrs.
+
+# feedback
+- Usage of sync.Mutex instead of sync.RWMutex.
+- The service has become stateful; it would have been better to create an abstraction for some storage.
